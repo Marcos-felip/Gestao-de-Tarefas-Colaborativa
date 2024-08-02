@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'adminlte3',
     'myapp',
+    'allauth',
+    'allauth.account',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'projeto.urls'
