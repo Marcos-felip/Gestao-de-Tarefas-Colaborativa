@@ -19,10 +19,9 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.static import static
 
-
-
-
-urlpatterns = [ 
+urlpatterns = [  
     path('admin/', admin.site.urls),
-    path('', include('myapp.urls')),
+    #path('', include('myapp.urls')),
+    path('accounts/', include('allauth.urls')),
+    #path('accounts/', include('django.contrib.auth.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
