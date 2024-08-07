@@ -1,10 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
-class Organization(models.Model):
-    name = models.CharField(max_length=255)
-    owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='owned_team')
-    members = models.ManyToManyField(User, related_name='teams')
+class UserProfile(AbstractUser):
 
     def __str__(self):
-        return self.name
+        return self.username
+
+
+class Organization(models.Model):
+     name = models.CharField(max_length=150, verbose_name='nome')
+
+     def __str__(self):
+         return self.name
