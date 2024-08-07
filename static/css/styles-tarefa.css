@@ -1,0 +1,14 @@
+.card {
+    padding: 20px;
+    margin-top: 50px;
+  }
+
+.btn{
+    width: 100px;
+    height: 40px;
+}
+
+.btn.btn-primary{
+    float:right;
+    width: 120px;
+}
