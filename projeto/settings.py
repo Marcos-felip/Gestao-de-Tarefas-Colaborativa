@@ -151,7 +151,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'home' # Redireciona para a dashboard '/home/' após o login
-#LOGOUT_REDIRECT_URL = 'login' # Redireciona para a pagina de login '/login/' após o login
+LOGOUT_REDIRECT_URL = 'account_login' # Redireciona para a pagina de login '/login/' após o login
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.example.com'

@@ -5,5 +5,5 @@ class home(TemplateView):
     template_name='base.html'
 
 class logoutDashboard(TemplateView):
-    template_name = 'account/login.html'
+    template_name = 'account/logout.html'
 
