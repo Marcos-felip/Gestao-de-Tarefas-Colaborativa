@@ -90,6 +90,9 @@ ACCOUNT_FORMS = {
     'signup': 'users.forms.OrganizationForm',
 }
 
+AUTH_USER_MODEL = 'users.UserProfile'
+
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -99,6 +102,11 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # Para autenticação padrão com e-mail ou nome de usuário
+    'allauth.account.auth_backends.AuthenticationBackend',  # Para autenticação do allauth
+)
 
 SITE_ID = 1
 
@@ -159,3 +167,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'your-email@example.com'
 EMAIL_HOST_PASSWORD = 'your-email-password'
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Usa e-mail para autenticação
+ACCOUNT_USERNAME_REQUIRED = False  # Não requer nome de usuário
+ACCOUNT_EMAIL_REQUIRED = True  # Requer e-mail
+ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Opcional ou obrigatório
