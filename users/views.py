@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 
 
 class home(TemplateView):
-    template_name='base.html'
+    template_name='home.html'
 
 
 class logoutDashboard(TemplateView):
@@ -13,7 +13,7 @@ class logoutDashboard(TemplateView):
 
 
 class SignupView(FormView):
-    template_name = 'account/signup.html'
+    template_name = 'account/signup.html' # Continua na pagina se obter erro ao ao se registrar
     form_class = SignupForm
     success_url = reverse_lazy('account_login')  # URL para redirecionar após sucesso
 

@@ -3,7 +3,8 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Organization(models.Model):
-     name = models.CharField(max_length=150, verbose_name='nome', default='Default Organization Name')
+     name = models.CharField(max_length=150, verbose_name='nome', default='Organization Name')
+     
 
      def __str__(self):
          return self.name

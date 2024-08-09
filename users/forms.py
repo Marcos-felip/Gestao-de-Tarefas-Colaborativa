@@ -1,4 +1,5 @@
 from allauth.account.forms import SignupForm
+from django.contrib.auth.models import User
 from .models import Organization
 from django import forms
 
