@@ -1,3 +1,8 @@
+{% extends "dashboard/base.html" %}
+{% block title %}
+  Tarefas - {{ block.super }}
+{% endblock title %}
+{% block content %}
 <div class="card">
     <div class="card-header">
       <h1>Lista de Tarefas</h1>
@@ -21,16 +26,8 @@
               <button class="btn btn-danger btn-sm">Excluir</button>
             </td>
           </tr>
-          <tr>
-            <td><a href="">Tarefa 1</a></td>
-            <td><button class="btn btn-secondary btn-sm">Detalhes</button></td>
-            <td>
-              <button class="btn btn-warning btn-sm">Editar</button>
-              <button class="btn btn-danger btn-sm">Excluir</button>
-            </td>
-          </tr>
         </tbody>
-      </table>   
-  
+      </table>
     </div>
-  </div>
+
+  </div>{% endblock %}

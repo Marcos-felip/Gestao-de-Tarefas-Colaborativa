@@ -1,15 +1,26 @@
-from django.views.generic.base import TemplateView
+from django.views.generic import TemplateView, ListView
 from allauth.account.forms import SignupForm
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
+from .models import Membership
 
 
-class home(TemplateView):
+class Home(TemplateView):
     template_name='home.html'
 
 
-class logoutDashboard(TemplateView):
+class LogoutDashboard(TemplateView):
     template_name = 'account/logout.html'
+
+
+class Tarefas(TemplateView):
+    template_name = 'dashboard/tarefas.html' # redirecionamento para (Tarefas)
+
+
+class UserManage(ListView):
+    template_name = 'account/admistracao_usuarios.html' # redirecionamento para (Admistração de usuario)
+    model = Membership
+    paginate_by = 20
 
 
 class SignupView(FormView):
@@ -23,3 +34,4 @@ class SignupView(FormView):
 
     def form_invalid(self, form):
         return super().form_invalid(form)
+    

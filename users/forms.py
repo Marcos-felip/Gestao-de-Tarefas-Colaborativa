@@ -1,11 +1,14 @@
 from allauth.account.forms import SignupForm
-from django.contrib.auth.models import User
-from .models import Organization
+from .models import Organization, Membership
 from django import forms
 
 
 class OrganizationForm(SignupForm):
-    name_organization = forms.CharField(max_length=100, required=False, label='Organização', widget=forms.TextInput(attrs={'placeholder': 'Nome da Organização/Empresa'})
+    name_organization = forms.CharField(
+        max_length=100, 
+        required=False, 
+        label='Organização', 
+        widget=forms.TextInput(attrs={'placeholder': 'Nome da Organização/Empresa'})
     )
 
     field_order=["name_organization"]
@@ -17,7 +20,9 @@ class OrganizationForm(SignupForm):
             # Cria uma nova organização
             organization = Organization.objects.create(name=organization_name)
             # Associa a organização ao usuário
-            user.organizations.add(organization)
+            user.organizations = organization
             user.save()
+            # Cria um novo Membership para o usuário como proprietário
+            Membership.objects.create(user=user,organization=organization, type_permission=Membership.Permission.OWNER.value)
         return user
 
