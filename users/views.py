@@ -2,7 +2,7 @@ from django.views.generic import TemplateView, ListView
 from allauth.account.forms import SignupForm
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
-from .models import Membership
+from .models import Membership, UserProfile
 
 
 class Home(TemplateView):
@@ -21,6 +21,10 @@ class UserManage(ListView):
     template_name = 'account/admistracao_usuarios.html' # redirecionamento para (Admistração de usuario)
     model = Membership
     paginate_by = 20
+
+    def get_queryset(self):
+        # Filtra usuários baseados na organização do usuário logado
+        return UserProfile.objects.filter(membership__organization=self.request.user.membership_set.first().organization)
 
 
 class SignupView(FormView):

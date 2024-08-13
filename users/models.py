@@ -11,7 +11,7 @@ class Organization(models.Model):
 class UserProfile(AbstractUser):
 
     def __str__(self):
-        return self
+        return self.username
     
 
 class Membership(models.Model):
