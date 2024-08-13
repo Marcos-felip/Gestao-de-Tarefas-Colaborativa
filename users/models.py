@@ -3,15 +3,16 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Organization(models.Model):
-    name = models.CharField(max_length=150, verbose_name='nome', null=True, blank=True)
+    name = models.CharField(max_length=150, verbose_name='nome', blank=True, null= True)
 
     def __str__(self):
         return self.name
 
+
 class UserProfile(AbstractUser):
 
     def __str__(self):
-        return self
+        return self.username
     
 
 class Membership(models.Model):

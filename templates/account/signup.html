@@ -26,7 +26,7 @@
                                         {% url 'account_signup' as action_url %}
                                         <form method="post" action="{{ action_url }}">
                                             {% csrf_token %}
-                                            <h3>{% trans "Organization" %}</h3>
+                                            {% comment %} <h3>{% trans "Organization" %}</h3> {% endcomment %}
                                             <div class="form-floating mb-3">
                                                 <input class="form-control {% if form.name_organization.errors %}is-invalid{% endif %}" 
                                                        id="inputOrganization" 
@@ -39,7 +39,7 @@
                                                     <div class="invalid-feedback">{{ error }}</div>
                                                 {% endfor %}
                                             </div>
-                                            <h3>{% trans "Account Admin" %}</h3>
+                                            {% comment %} <h3>{% trans "Account Admin" %}</h3> {% endcomment %}
                                             <div class="form-floating mb-3">
                                                 <input class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
                                                        id="inputUsername" 

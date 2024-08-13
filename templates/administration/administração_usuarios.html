@@ -1,0 +1,42 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+  Usuarios {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+          <h1>Lista de Usuários</h1>
+          <a class="btn btn-primary" href="{% url "user_create" %}">Novo Usuario</a>
+      </div>
+      <div class="card-body">
+          <table class="table">
+              <thead>
+                  <tr>
+                      <th>Nome</th>
+                      <th>Equipe</th>
+                      <th>Permissão</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for Membership in usuarios %}
+                  <tr>
+                      <td>{{ Membership.user }}</td>
+                      <td>{{ Membership.organization }}</td>
+                      <td>{{ Membership.get_type_permission_display }}</td>
+                      <td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                      <td colspan="3" class="text-center">Nenhum usuário encontrado.</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+  </div>
+</div>
+
+{% endblock %}

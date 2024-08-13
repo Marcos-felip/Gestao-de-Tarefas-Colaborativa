@@ -1,0 +1,38 @@
+{% extends "dashboard/base.html" %}
+
+{% block title %}
+  Novo {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+
+<div class="container mt-4">
+  <div class="card">
+    <h1 class="p-3">
+      Novo Usuario
+    </h1>
+        <div class="card-body">
+          <form method="post" action="{{ action_url }}">
+            {% csrf_token %}
+
+            Nome
+            <div class="form-floating mb-3">
+            <input class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
+                   id="inputUsername" 
+                   type="text" 
+                   name="username" 
+                   placeholder="Username" 
+                   value="{{ form.username.value }}" />
+            <label for="inputUsername">Nome</label>
+            {% for error in form.username.errors %}
+                <div class="invalid-feedback">
+                  {{ error }}
+                </div>
+            {% endfor %}
+          </div>
+         </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
