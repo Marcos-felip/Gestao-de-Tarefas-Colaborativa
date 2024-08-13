@@ -41,14 +41,14 @@
                                             </div>
                                             {% comment %} <h3>{% trans "Account Admin" %}</h3> {% endcomment %}
                                             <div class="form-floating mb-3">
-                                                <input class="form-control {% if form.username.errors %}is-invalid{% endif %}" 
-                                                       id="inputUsername" 
+                                                <input class="form-control {% if form.full_name.errors %}is-invalid{% endif %}" 
+                                                       id="inputFullName" 
                                                        type="text" 
-                                                       name="username" 
-                                                       placeholder="{% trans 'Username' %}" 
-                                                       value="{{ form.username.value }}" />
-                                                <label for="inputUsername">{% trans "Full Name" %}</label>
-                                                {% for error in form.username.errors %}
+                                                       name="full_name" 
+                                                       placeholder="{% trans 'Full Name' %}" 
+                                                       value="{{ form.full_name.value }}" />
+                                                <label for="inputFullName">{% trans "Full Name" %}</label>
+                                                {% for error in form.full_name.errors %}
                                                     <div class="invalid-feedback">{{ error }}</div>
                                                 {% endfor %}
                                             </div>

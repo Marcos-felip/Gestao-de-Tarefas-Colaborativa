@@ -60,7 +60,6 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-
 ]
 
 ROOT_URLCONF = 'projeto.urls'

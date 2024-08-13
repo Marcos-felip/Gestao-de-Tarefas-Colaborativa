@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from .models import Membership, Organization
 
 
+
 class Home(TemplateView):
     template_name='home.html'
 
@@ -46,6 +47,10 @@ class ListUserView(ListView):
 class CreateUserView(CreateUser):
     model = Membership
     
+
+    def get_queryset(self):
+        # Filtra usuários baseados na organização do usuário logado
+        return UserProfile.objects.filter(membership__organization=self.request.user.membership_set.first().organization)
 
 
 class SignupView(FormView):
