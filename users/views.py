@@ -1,13 +1,11 @@
-from django.views.generic import TemplateView, ListView, CreateView, DeleteView 
-from allauth.account.forms import SignupForm
-from django.views.generic.edit import FormView
+from django.views.generic import TemplateView, ListView, FormView, CreateView 
+from .forms import OrganizationForm, UserMemberForm
 from django.urls import reverse_lazy
 from .models import Membership, Organization
 
 
-
 class Home(TemplateView):
-    template_name='home.html'
+    template_name='dashboard/home.html'
 
 
 class LogoutDashboard(TemplateView):
@@ -32,9 +30,8 @@ class ListUserView(ListView):
         # Obtém a organização do usuário atual
         user_memberships = Membership.objects.filter(user=self.request.user)
 
-        #todas as organizações do usuário
+        # Todas as organizações do usuário
         user_memberships = self.request.user.membership_set.all()
-
         user_organizations = Organization.objects.filter(membership__in=user_memberships)
 
         if user_organizations:
@@ -44,18 +41,19 @@ class ListUserView(ListView):
         return queryset # Retorna uma QuerySet vazia se não houver organização associada
 
 
-class CreateUserView(CreateUser):
-    model = Membership
-    
+class CreateUserView(CreateView):
+    form_class = UserMemberForm
+    template_name = 'administration/novo_usuario.html'
+    success_url = reverse_lazy('equipes_list')  
 
-    def get_queryset(self):
-        # Filtra usuários baseados na organização do usuário logado
-        return UserProfile.objects.filter(membership__organization=self.request.user.membership_set.first().organization)
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)    
 
 
 class SignupView(FormView):
     template_name = 'account/signup.html' # Continua na pagina se obter erro ao ao se registrar
-    form_class = SignupForm
+    form_class = OrganizationForm
     success_url = reverse_lazy('account_login')  # URL para redirecionar após sucesso
 
     def form_valid(self, form):
@@ -64,4 +62,3 @@ class SignupView(FormView):
 
     def form_invalid(self, form):
         return super().form_invalid(form)
-    

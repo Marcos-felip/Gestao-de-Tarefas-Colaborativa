@@ -1,29 +1,22 @@
 from allauth.account.forms import SignupForm
-from .models import Organization, Membership
+from .models import Organization, Membership, UserProfile
+from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
 class OrganizationForm(SignupForm):
     name_organization = forms.CharField(
         max_length=100, 
-        required=True,  # Agora obrigatório
+        required=True,  
         label='Organização', 
         widget=forms.TextInput(attrs={'placeholder': 'Nome da Organização/Empresa'})
     )
 
-    full_name = forms.CharField(
-        max_length=100, 
-        required=True, 
-        label='Nome Completo',
-        widget=forms.TextInput(attrs={'placeholder': 'Nome Completo'})
-    )
-
-    field_order = ["full_name", "name_organization"]
+    field_order = ["name_organization"]
 
     def save(self, *args, **kwargs):
         user = super().save(*args, **kwargs)
-        user.username = self.cleaned_data.get('full_name')
-        user.save()
 
+        # Cria ou obtém a organização
         organization_name = self.cleaned_data.get('name_organization')
         if organization_name:
             organization, created = Organization.objects.get_or_create(name=organization_name)
@@ -36,4 +29,18 @@ class OrganizationForm(SignupForm):
             if not created:
                 membership.type_permission = Membership.Permission.OWNER.value
                 membership.save()
+        return user
+    
+
+class UserMemberForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = UserProfile
+        fields = ('username', 'email', 'password1', 'password2')
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
         return user
