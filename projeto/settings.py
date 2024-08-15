@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'users',
     'tasks',
+    'crispy_forms',
+    "crispy_bootstrap4",
 ]
 
 MIDDLEWARE = [
@@ -172,3 +174,8 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Usa e-mail para autenticação
 ACCOUNT_USERNAME_REQUIRED = False  # Não requer nome de usuário
 ACCOUNT_EMAIL_REQUIRED = True  # Requer e-mail
 ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Opcional ou obrigatório
+
+# Configuração do crispy-bootstrap-4
+ 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = "bootstrap4"

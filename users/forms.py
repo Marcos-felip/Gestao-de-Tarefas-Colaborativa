@@ -1,7 +1,10 @@
+from typing import Any
 from allauth.account.forms import SignupForm
 from .models import Organization, Membership, UserProfile
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from django.db import models
+
 
 class OrganizationForm(SignupForm):
     name_organization = forms.CharField(
@@ -33,11 +36,32 @@ class OrganizationForm(SignupForm):
     
 
 class UserMemberForm(UserCreationForm):
+    
+    class Permission(models.TextChoices):
+        Administrador = Membership.Permission.ADMIN
+        Colaborador = Membership.Permission.USER
+    
     email = forms.EmailField(required=True)
-
+    
+    # Herdando as opçoes que estão na classe Membership
+    type_permission = forms.ChoiceField(
+        choices=Permission.choices,
+        required=True,
+        widget=forms.Select,
+        help_text="Tipo de Permissão do Usuario",
+        label="Tipo de Permissão"
+    )
+    
     class Meta:
         model = UserProfile
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('username', 'email', 'password1', 'type_permission')
+        
+    def __init__(self, *args: Any, **kwargs):
+        super(UserMemberForm,self).__init__(*args, **kwargs)
+        #self.fields['password2'].widget = forms.HiddenInput()
+        del self.fields['password2']
+
+        
 
     def save(self, commit=True):
         user = super().save(commit=False)

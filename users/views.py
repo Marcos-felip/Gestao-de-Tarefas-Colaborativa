@@ -1,60 +1,103 @@
-from django.views.generic import TemplateView, ListView, FormView, CreateView 
+from django.views.generic import (
+    TemplateView,
+    ListView,
+    FormView,
+    CreateView,
+    DeleteView,
+)
 from .forms import OrganizationForm, UserMemberForm
 from django.urls import reverse_lazy
-from .models import Membership, Organization
+from .models import Membership, Organization, UserProfile
+from django.shortcuts import get_object_or_404
 
 
 class Home(TemplateView):
-    template_name='dashboard/home.html'
+    template_name = "dashboard/home.html"
 
 
 class LogoutDashboard(TemplateView):
-    template_name = 'account/logout.html'
-
-
-class CreateUser(TemplateView):
-    template_name = 'administration/novo_usuario.html'
+    template_name = "account/logout.html"
 
 
 class Tasks(TemplateView):
-    template_name = 'dashboard/tasks.html' # redirecionamento para (Tarefas)
+    template_name = "dashboard/tasks.html"  # redirecionamento para (Tarefas)
 
 
 class ListUserView(ListView):
-    template_name = 'administration/administração_usuarios.html' # redirecionamento para (Admistração de usuario)
+    template_name = "administration/administração_usuarios.html"
     model = Membership
     paginate_by = 20
-    context_object_name = 'usuarios'
 
     def get_queryset(self):
         # Obtém a organização do usuário atual
+        queryset = super().get_queryset()
+        print(queryset)
+        print(queryset.none())
         user_memberships = Membership.objects.filter(user=self.request.user)
 
         # Todas as organizações do usuário
         user_memberships = self.request.user.membership_set.all()
-        user_organizations = Organization.objects.filter(membership__in=user_memberships)
+        user_organizations = Organization.objects.filter(
+            membership__in=user_memberships
+        )
 
         if user_organizations:
             # Filtra membros com base na organização do usuário atual
-            queryset = Membership.objects.filter(organization__in=user_organizations)
-            
-        return queryset # Retorna uma QuerySet vazia se não houver organização associada
+            queryset = queryset.filter(organization__in=user_organizations)
+        else:
+            queryset = queryset.none()
+
+        return queryset.order_by(
+            "user__username"
+        )  # Retorna uma QuerySet vazia se não houver organização associada
 
 
 class CreateUserView(CreateView):
     form_class = UserMemberForm
-    template_name = 'administration/novo_usuario.html'
-    success_url = reverse_lazy('equipes_list')  
+    template_name = "administration/novo_usuario.html"
+    success_url = reverse_lazy("user_list_view")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
     def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)    
+        # Salva o usuário
+        user = form.save(commit=False)
+        user.save()
+
+        # Obtém o tipo de permissão selecionado
+        type_permission = form.cleaned_data["type_permission"]
+
+        # Obtém a organização do proprietário (usuário logado)
+        current_user = self.request.user
+
+        # Certifique-se de que o usuário logado tem uma associação com uma organização
+        membership = get_object_or_404(
+            Membership, user=current_user, type_permission=Membership.Permission.OWNER
+        )
+        organization = membership.organization
+
+        # Cria o Membership para o novo usuário
+        Membership.objects.create(
+            user=user, organization=organization, type_permission=type_permission
+        )
+
+        return super().form_valid(form)
+
+
+class DeleteUserView(DeleteView):
+    model = Membership
+    template_name = "administration/confirm_delete.html"
+    success_url = reverse_lazy("user_list_view")
 
 
 class SignupView(FormView):
-    template_name = 'account/signup.html' # Continua na pagina se obter erro ao ao se registrar
+    template_name = (
+        "account/signup.html"  # Continua na pagina se obter erro ao ao se registrar
+    )
     form_class = OrganizationForm
-    success_url = reverse_lazy('account_login')  # URL para redirecionar após sucesso
+    success_url = reverse_lazy("account_login")  # URL para redirecionar após sucesso
 
     def form_valid(self, form):
         form.save(self.request)  # Salva o usuário no banco de dados

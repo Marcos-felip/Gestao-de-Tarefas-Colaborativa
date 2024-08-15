@@ -1,135 +1,29 @@
 {% extends "dashboard/base.html" %} 
 {% load static allauth i18n %} 
+{% load crispy_forms_tags %}
 {% block title %} 
   Novo Usuario{{ block.super }} 
 {% endblock title %} 
 
 {% block content %}
-{% comment %} Campo para dicionar Novo usuário {% endcomment %}
-
 <div class="container mt-4">
   <div class="card">
     <h1 class="p-3">{% trans "Add New User" %}</h1>
     <div class="card-body">
-      <form method="post" action="{% url 'user_create_view' %}">
+      <form method="post" class="my-class">
         {% csrf_token %}
-        <div class="form-floating mb-3">
-          <input
-            class="form-control {% if form.username.errors %}is-invalid{% endif %}"
-            id="inputUsername"
-            type="text"
-            name="username"
-            placeholder="{% trans 'Username' %}"
-            value="{{ form.username.value|default_if_none:'' }}"
-          />
-          <label for="inputUsername">{% trans "Username" %}</label>
-          {% for error in form.username.errors %}
-          <div class="invalid-feedback">{{ error }}</div>
-          {% endfor %}
-        </div>
-        <div class="form-floating mb-3">
-          <input
-            class="form-control {% if form.email.errors %}is-invalid{% endif %}"
-            id="inputEmail"
-            type="email"
-            name="email"
-            placeholder="{% trans 'Email address' %}"
-            value="{{ form.email.value|default_if_none:'' }}"
-          />
-          <label for="inputEmail">{% trans "Email address" %}</label>
-          {% for error in form.email.errors %}
-          <div class="invalid-feedback">{{ error }}</div>
-          {% endfor %}
-        </div>
-        {% if form.email2 %}
-        <div class="form-floating mb-3">
-          <input
-            class="form-control {% if form.email2.errors %}is-invalid{% endif %}"
-            id="inputEmail2"
-            type="email"
-            name="email2"
-            placeholder="{% trans 'Confirm email address' %}"
-            value="{{ form.email2.value|default_if_none:'' }}"
-          />
-          <label for="inputEmail2">{% trans "Confirm Email Address" %}</label>
-          {% for error in form.email2.errors %}
-          <div class="invalid-feedback">{{ error }}</div>
-          {% endfor %}
-        </div>
-        {% endif %}
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <div class="form-floating mb-3 mb-md-0">
-              <input
-                class="form-control {% if form.password1.errors %}is-invalid{% endif %}"
-                id="inputPassword1"
-                type="password"
-                name="password1"
-                placeholder="{% trans 'Create a password' %}"
-              />
-              <label for="inputPassword1">{% trans "Password" %}</label>
-              {% for error in form.password1.errors %}
-              <div class="invalid-feedback">{{ error }}</div>
-              {% endfor %}
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-floating mb-3 mb-md-0">
-              <input
-                class="form-control {% if form.password2.errors %}is-invalid{% endif %}"
-                id="inputPassword2"
-                type="password"
-                name="password2"
-                placeholder="{% trans 'Confirm password' %}"
-              />
-              <label for="inputPassword2">{% trans "Confirm Password" %}</label>
-              {% for error in form.password2.errors %}
-              <div class="invalid-feedback">{{ error }}</div>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-        <div class="mt-4 mb-0">
-          <div class="d-grid">
-            <button type="submit" class="btn btn-primary btn-block">
+        {{ form|crispy }}
+        <div class="container mt-5">
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-success btn-block">
               {% trans "Save" %}
             </button>
+            <a href="{% url 'user_list_view' %}" class="btn btn-primary">Cancelar</a>
           </div>
         </div>
-        {{ redirect_field }}
       </form>
     </div>
   </div>
 </div>
 
-{% comment %} Adicionar Usuario a um Time/Equipe {% endcomment %}
-
-{% comment %} <div class="container">
-  <div class="card">
-    <div class="card-header">
-      <h1>Adicionar Associação</h1>
-    </div>
-    <div class="card-body">
-      <form>
-        <div class="mb-3">
-          <label for="usuario" class="form-label">Usuário</label>
-          <div class="input-group">
-            <select class="form-select" id="usuario"></select>
-          </div>
-        </div> 
-        <div class="mb-3">
-          <label for="organizacao" class="form-label">Organização</label>
-          <div class="input-group">
-            <select class="form-select" id="organizacao"></select>
-          </div>
-        </div>
-        <div class="mb-3">
-          <label for="permissao" class="form-label">Permissão de tipo</label>
-          <select class="form-select" id="permissao"></select>
-        </div>
-        <button type="submit" class="btn btn-primary">Salvar</button>
-      </form>
-    </div>
-  </div>
-</div> {% endcomment %}
 {% endblock %}
