@@ -9,3 +9,6 @@
     cursor: pointer;
 }
 
+.btn.btn-primary{
+  width:120px;
+}

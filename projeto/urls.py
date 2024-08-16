@@ -25,4 +25,5 @@ urlpatterns = [
     path('__debug__/', include('debug_toolbar.urls')),
     path('accounts/', include('allauth.urls')),
     path('users/',include('users.urls')),
+    #path('tasks/'),include('tasks.urls')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

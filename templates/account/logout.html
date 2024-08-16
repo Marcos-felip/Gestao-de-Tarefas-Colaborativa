@@ -1,5 +1,6 @@
 {% extends "account/base_manage.html" %}
 {% load allauth i18n %}
+{% load crispy_forms_tags %}
 {% block head_title %}
     {% trans "Sign Out" %}
 {% endblock head_title %}
@@ -14,6 +15,7 @@
     {% element form method="post" action=action_url no_visible_fields=True %}
         {% slot body %}
             {% csrf_token %}
+            {{ form|crispy }}
             {{ redirect_field }}
         {% endslot %}
         {% slot actions %}

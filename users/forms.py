@@ -60,9 +60,7 @@ class UserMemberForm(UserCreationForm):
         super(UserMemberForm,self).__init__(*args, **kwargs)
         #self.fields['password2'].widget = forms.HiddenInput()
         del self.fields['password2']
-
         
-
     def save(self, commit=True):
         user = super().save(commit=False)
         if commit:

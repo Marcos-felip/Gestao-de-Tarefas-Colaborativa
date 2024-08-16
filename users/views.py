@@ -3,12 +3,13 @@ from django.views.generic import (
     ListView,
     FormView,
     CreateView,
-    DeleteView,
+    DeleteView, View
 )
 from .forms import OrganizationForm, UserMemberForm
 from django.urls import reverse_lazy
 from .models import Membership, Organization, UserProfile
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
+from .mixins import AdminOrOwnerMixin
 
 
 class Home(TemplateView):
@@ -52,10 +53,12 @@ class ListUserView(ListView):
         )  # Retorna uma QuerySet vazia se não houver organização associada
 
 
-class CreateUserView(CreateView):
+class CreateUserView(AdminOrOwnerMixin, CreateView):
+    model = Membership
     form_class = UserMemberForm
     template_name = "administration/novo_usuario.html"
     success_url = reverse_lazy("user_list_view")
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -84,9 +87,10 @@ class CreateUserView(CreateView):
         )
 
         return super().form_valid(form)
+    
 
 
-class DeleteUserView(DeleteView):
+class DeleteUserView(AdminOrOwnerMixin, DeleteView):
     model = Membership
     template_name = "administration/confirm_delete.html"
     success_url = reverse_lazy("user_list_view")
