@@ -66,3 +66,4 @@ class UserMemberForm(UserCreationForm):
         if commit:
             user.save()
         return user
+    

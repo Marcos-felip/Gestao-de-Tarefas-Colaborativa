@@ -31,3 +31,4 @@ class Membership(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.organization} ({self.get_type_permission_display()})"
+    

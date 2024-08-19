@@ -27,7 +27,9 @@
                       <td>{{ user.user }}</td>
                       <td>{{ user.organization }}</td>
                       <td>{{ user.get_type_permission_display }}</td>
-                      <td><a href="{% url 'user_delete_view' pk=user.pk %}" class="btn btn-danger">Excluir<a/></td>
+                      <td><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" data-id="{{ user.pk }}">
+                        Excluir
+                    </button></td>
                   </tr>
                   {% empty %}
                   <tr>
@@ -39,5 +41,19 @@
       </div>
   </div>
 </div>
+
+{% include "administration/confirm_delete.html" %}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var deleteModal = document.getElementById('exampleModalCenter');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget; // Botão que abriu o modal
+            var userId = button.getAttribute('data-id'); // ID do usuário a ser excluído
+            var form = document.getElementById('deleteForm');
+        });
+    });
+    </script>
 
 {% endblock %}
