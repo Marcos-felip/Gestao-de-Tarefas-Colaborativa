@@ -1,5 +1,4 @@
 {% extends "dashboard/base.html" %} 
-
 {% block title %} 
     Excluir Usuarios
 {{block.super }} 
@@ -7,20 +6,20 @@
 
 {% block content %}
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<!-- Modal HTML para cada usuário -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Confirmar Exclusão</h5>
+                <h5 class="modal-title">Confirmar Exclusão</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Tem certeza que deseja excluir este usuário?
+                Tem certeza que deseja remover este usuário da sua equipe?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <form id="deleteForm" method="post" style="display:inline;" hx-delete="" hx-target="#user-row">
+                <form id="deleteForm" method="post" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Excluir</button>
                 </form>
@@ -28,5 +27,6 @@
         </div>
     </div>
 </div>
+
 
 {% endblock %}

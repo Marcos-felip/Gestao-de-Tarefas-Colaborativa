@@ -3,13 +3,14 @@ from django.views.generic import (
     ListView,
     FormView,
     CreateView,
-    DeleteView, View
+    DeleteView, 
 )
 from .forms import OrganizationForm, UserMemberForm
 from django.urls import reverse_lazy
-from .models import Membership, Organization, UserProfile
+from .models import Membership, Organization
 from django.shortcuts import get_object_or_404, redirect
 from .mixins import AdminOrOwnerMixin
+from django.views.generic import View
 
 
 class Home(TemplateView):
@@ -20,14 +21,11 @@ class LogoutDashboard(TemplateView):
     template_name = "account/logout.html"
 
 
-class Tasks(TemplateView):
-    template_name = "dashboard/tasks.html"  # redirecionamento para (Tarefas)
-
-
 class ListUserView(ListView):
     template_name = "administration/administração_usuarios.html"
     model = Membership
     paginate_by = 20
+    
 
     def get_queryset(self):
         # Obtém a organização do usuário atual
@@ -88,6 +86,20 @@ class CreateUserView(AdminOrOwnerMixin, CreateView):
 
         return super().form_valid(form)
     
+
+class EnableUserView(View):
+    def get(self, request, *args, **kwargs):
+        membership = get_object_or_404(Membership, pk=kwargs['pk'])
+        membership.is_active = True
+        membership.save()
+        return redirect('user_list_view')
+
+class DisableUserView(View):
+    def get(self, request, *args, **kwargs):
+        membership = get_object_or_404(Membership, pk=kwargs['pk'])
+        membership.is_active = False
+        membership.save()
+        return redirect('user_list_view')
 
 
 class DeleteUserView(AdminOrOwnerMixin, DeleteView):

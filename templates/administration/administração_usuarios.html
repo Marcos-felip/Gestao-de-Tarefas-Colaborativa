@@ -1,7 +1,6 @@
 {% extends "dashboard/base.html" %}
-
 {% block title %}
-  Usuarios {{ block.super }}
+  Usuários {{ block.super }}
 {% endblock title %}
 
 {% block content %}
@@ -9,7 +8,7 @@
   <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
           <h1>Lista de Usuários</h1>
-          <a class="btn btn-primary" href="{% url "user_create_view" %}">Incluir</a>
+          <a class="btn btn-primary" href="{% url 'user_create_view' %}">Incluir</a>
       </div>
       <div class="card-body">
           <table class="table">
@@ -18,6 +17,7 @@
                       <th>Nome</th>
                       <th>Equipe</th>
                       <th>Permissão</th>
+                      <th>Status</th>
                       <th>Ações</th>
                   </tr>
               </thead>
@@ -27,13 +27,27 @@
                       <td>{{ user.user }}</td>
                       <td>{{ user.organization }}</td>
                       <td>{{ user.get_type_permission_display }}</td>
-                      <td><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" data-id="{{ user.pk }}">
-                        Excluir
-                    </button></td>
+                      <td>
+                          {% if user.is_active %}
+                              <span class="badge bg-success">Habilitado</span>
+                          {% else %}
+                              <span class="badge bg-danger">Desabilitado</span>
+                          {% endif %}
+                      </td>
+                      <td>
+                          {% if user.is_active %}
+                              <a class="btn btn-warning" href="{% url 'user_disable_view' user.pk %}">Desabilitar</a>
+                          {% else %}
+                              <a class="btn btn-success" href="{% url 'user_enable_view' user.pk %}">Habilitar</a>
+                          {% endif %}
+                          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" data-url="{% url 'user_delete_view' user.pk %}" onclick="setActionUrl(this)">
+                              Excluir
+                          </button>
+                      </td>
                   </tr>
                   {% empty %}
                   <tr>
-                      <td colspan="3" class="text-center">Nenhum usuário encontrado.</td>
+                      <td colspan="5" class="text-center">Nenhum usuário encontrado.</td>
                   </tr>
                   {% endfor %}
               </tbody>
@@ -42,18 +56,14 @@
   </div>
 </div>
 
+<!-- Include do modal (confirm_delete.html)-->
 {% include "administration/confirm_delete.html" %}
 
-
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var deleteModal = document.getElementById('exampleModalCenter');
-        deleteModal.addEventListener('show.bs.modal', function (event) {
-            var button = event.relatedTarget; // Botão que abriu o modal
-            var userId = button.getAttribute('data-id'); // ID do usuário a ser excluído
-            var form = document.getElementById('deleteForm');
-        });
-    });
-    </script>
-
+    function setActionUrl(button) {
+        var form = document.getElementById('deleteForm');
+        var actionUrl = button.getAttribute('data-url');
+        form.action = actionUrl;
+    }
+</script>
 {% endblock %}

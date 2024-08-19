@@ -1,4 +1,4 @@
-{% extends "dashboard/base.html" %} 
+{% extends "dashboard/base.html" %}
 {% load static allauth i18n %} 
 {% load crispy_forms_tags %}
 {% block title %} 
@@ -18,7 +18,6 @@
             <button type="submit" class="btn btn-success btn-block">
               {% trans "Save" %}
             </button>
-            <a href="{% url 'user_list_view' %}" class="btn btn-primary">Cancelar</a>
           </div>
         </div>
       </form>

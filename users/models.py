@@ -28,6 +28,8 @@ class Membership(models.Model):
         choices=Permission.choices,
         default=Permission.ADMIN.value
     )
+    
+    is_active = models.BooleanField(default=True)  # Novo campo para controle de ativação
 
     def __str__(self):
         return f"{self.user} - {self.organization} ({self.get_type_permission_display()})"
