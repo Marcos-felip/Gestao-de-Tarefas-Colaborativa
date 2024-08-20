@@ -1,29 +1,33 @@
 {% extends "dashboard/base.html" %}
-{% load static allauth i18n %} 
-{% load crispy_forms_tags %}
+{% load static allauth i18n %}  
+{% load crispy_forms_tags %} 
 {% block title %} 
-  Novo Usuario{{ block.super }} 
+    Nova Tarefa{{ block.super }} 
 {% endblock title %} 
 
 {% block content %}
 <div class="container mt-4">
   <div class="card">
-    <h1 class="p-3">{% trans "Add New User" %}</h1>
+    <div class="card-header">
+        <h1 class="p-3">{% trans "Nova Tarefa" %}</h1>
     <div class="card-body">
       <form method="post" class="my-class">
-        {% csrf_token %}
+        {% csrf_token %} 
         {{ form|crispy }}
         <div class="container mt-5">
           <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-success">
-              <i class="fas fa-save"></i>
-              {% trans "Save" %}
+                <i class="fas fa-save"></i>
+                {% trans "Save" %}
             </button>
+            {% comment %}
+            <a href="{% url 'tasks_list' %}" class="btn btn-secondary"
+              >Cancelar</a>
+            {% endcomment %}
           </div>
         </div>
       </form>
     </div>
   </div>
 </div>
-
 {% endblock %}

@@ -4,11 +4,15 @@
 {% endblock title %}
 
 {% block content %}
+
 <div class="container mt-4">
   <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
           <h1>Lista de Usuários</h1>
-          <a class="btn btn-primary" href="{% url 'user_create_view' %}">Incluir</a>
+          <a class="btn btn-primary" href="{% url 'user_create_view' %}">
+            <i class="fas fa-users"></i>
+            Incluir
+        </a>
       </div>
       <div class="card-body">
           <table class="table">
@@ -36,12 +40,16 @@
                       </td>
                       <td>
                           {% if user.is_active %}
-                              <a class="btn btn-warning" href="{% url 'user_disable_view' user.pk %}">Desabilitar</a>
+                              <a class="btn btn-warning" href="{% url 'user_disable_view' user.pk %}">
+                                <i class="bi bi-power"></i>
+                                Desabilitar
+                              </a>
                           {% else %}
                               <a class="btn btn-success" href="{% url 'user_enable_view' user.pk %}">Habilitar</a>
                           {% endif %}
-                          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" data-url="{% url 'user_delete_view' user.pk %}" onclick="setActionUrl(this)">
-                              Excluir
+                          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" data-url="{% url 'user_delete_view' user.pk %}" onclick="setActionUrl(this">
+                            <i class="fas fa-trash"></i>  
+                            Excluir
                           </button>
                       </td>
                   </tr>
@@ -66,4 +74,5 @@
         form.action = actionUrl;
     }
 </script>
+
 {% endblock %}

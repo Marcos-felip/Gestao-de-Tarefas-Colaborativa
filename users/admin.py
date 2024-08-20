@@ -18,3 +18,4 @@ class MembershipAdmin(admin.ModelAdmin):
     list_display = ('user', 'organization', 'type_permission')
     search_fields = ('user__username', 'organization__name')
     list_filter = ('type_permission', 'organization')
+    

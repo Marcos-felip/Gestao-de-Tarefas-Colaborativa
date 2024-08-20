@@ -1,4 +1,47 @@
-from django.views.generic import TemplateView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from .models import Task, Category
+from .forms import TaskForm, CategoryForm
+from django.db.models import Q
 
-class Tasks(TemplateView):
-    template_name = "tasks/tasks.html"  # redirecionamento para (Tarefas)
+
+class TaskListView(ListView):
+    model = Task
+    template_name = 'tasks/tasks_list.html'
+
+    def get_queryset(self):
+        return Task.objects.filter(Q(created_by=self.request.user) | Q(assigned_to = self.request.user))
+
+
+class TaskDetailView(DetailView):
+    model = Task
+    template_name = 'tasks/tasks_detail.html'
+    
+
+class TaskCreateView(CreateView):
+    model = Task
+    form_class = TaskForm
+    template_name = 'tasks/tasks_form.html'
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
+    
+
+class TaskUpdateView(UpdateView):
+    model = Task
+    form_class = TaskForm
+    template_name = 'tasks/tasks_form.html'
+
+
+class TaskDeleteView(DeleteView):
+    model = Task
+    template_name = 'tasks/tasks_confirm_delete.html'
+    success_url = reverse_lazy('tasks_list') # redirecionamento para (Tarefas)
+
+
+class CategoryCreateView(CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'tasks/new_categories.html'
+    success_url = reverse_lazy('tasks_create')  # Redireciona para a página de criação de tarefas ou outra página

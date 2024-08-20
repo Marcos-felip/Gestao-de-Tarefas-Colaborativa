@@ -3,9 +3,8 @@ from users.models import UserProfile
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Nome da Categoria')
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='categories', verbose_name='Usuário')
-
+    name = models.CharField(max_length=20, verbose_name='Nome da Categoria')
+    
     def __str__(self):
         return self.name
 
