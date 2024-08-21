@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'tasks',
     'crispy_forms',
     "crispy_bootstrap4",
+    'channels',
+    'notifications',
 ]
 
 MIDDLEWARE = [
@@ -177,3 +179,9 @@ ACCOUNT_EMAIL_VERIFICATION = 'optional'  # Opcional ou obrigatório
  
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+# Redirecionamento Após o Registro
+
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECT_URL = '/accounts/login/'
+
+ASGI_APPLICATION = 'projeto.asgi.application'

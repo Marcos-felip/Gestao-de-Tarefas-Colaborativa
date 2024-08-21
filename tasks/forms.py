@@ -13,11 +13,8 @@ class TaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-        if user:
-            self.fields['category'].queryset = Category.objects.all() 
-        else:
-            self.fields['category'].queryset = Category.objects.all()
-
+        self.fields['category'].queryset = Category.objects.all() 
+        
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
@@ -27,3 +24,4 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['content']
+        

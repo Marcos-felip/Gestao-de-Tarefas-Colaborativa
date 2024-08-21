@@ -12,6 +12,18 @@ from django.shortcuts import get_object_or_404, redirect
 from .mixins import AdminOrOwnerMixin
 from django.views.generic import View
 
+class UserRegistrationView(FormView):
+    template_name = "account/signup.html"  
+    form_class = OrganizationForm
+    success_url = reverse_lazy("account_login")
+
+    def form_valid(self, form):
+        form.save(self.request)  # Salva o usuário no banco de dados
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
+    
 
 class Home(TemplateView):
     template_name = "dashboard/home.html"
@@ -107,17 +119,3 @@ class DeleteUserView(AdminOrOwnerMixin, DeleteView):
     template_name = "administration/confirm_delete.html"
     success_url = reverse_lazy("user_list_view")
 
-
-class SignupView(FormView):
-    template_name = (
-        "account/signup.html"  # Continua na pagina se obter erro ao ao se registrar
-    )
-    form_class = OrganizationForm
-    success_url = reverse_lazy("account_login")  # URL para redirecionar após sucesso
-
-    def form_valid(self, form):
-        form.save(self.request)  # Salva o usuário no banco de dados
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        return super().form_invalid(form)

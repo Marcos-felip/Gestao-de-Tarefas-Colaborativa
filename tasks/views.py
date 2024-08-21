@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Task, Category
-from .forms import TaskForm, CategoryForm
+from .models import Task, Category, Comment
+from .forms import TaskForm, CategoryForm, CommentForm
 from django.db.models import Q
 
 
@@ -22,6 +22,7 @@ class TaskCreateView(CreateView):
     model = Task
     form_class = TaskForm
     template_name = 'tasks/tasks_form.html'
+    success_url = reverse_lazy('tasks_list')
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -32,6 +33,7 @@ class TaskUpdateView(UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'tasks/tasks_form.html'
+    success_url = reverse_lazy('tasks_list')
 
 
 class TaskDeleteView(DeleteView):
@@ -45,3 +47,10 @@ class CategoryCreateView(CreateView):
     form_class = CategoryForm
     template_name = 'tasks/new_categories.html'
     success_url = reverse_lazy('tasks_create')  # Redireciona para a página de criação de tarefas ou outra página
+    
+
+class CommentCreateView(CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'tasks/tasks_detail.html'
+    

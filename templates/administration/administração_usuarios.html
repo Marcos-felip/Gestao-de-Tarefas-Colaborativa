@@ -33,19 +33,19 @@
                       <td>{{ user.get_type_permission_display }}</td>
                       <td>
                           {% if user.is_active %}
-                              <span class="badge bg-success">Habilitado</span>
+                              <span class="badge bg-success">Ativado</span>
                           {% else %}
-                              <span class="badge bg-danger">Desabilitado</span>
+                              <span class="badge bg-danger">Desativado</span>
                           {% endif %}
                       </td>
                       <td>
                           {% if user.is_active %}
                               <a class="btn btn-warning" href="{% url 'user_disable_view' user.pk %}">
                                 <i class="bi bi-power"></i>
-                                Desabilitar
+                                Desativar
                               </a>
                           {% else %}
-                              <a class="btn btn-success" href="{% url 'user_enable_view' user.pk %}">Habilitar</a>
+                              <a class="btn btn-success" href="{% url 'user_enable_view' user.pk %}">Ativar</a>
                           {% endif %}
                           <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" data-url="{% url 'user_delete_view' user.pk %}" onclick="setActionUrl(this">
                             <i class="fas fa-trash"></i>  
@@ -69,8 +69,8 @@
 
 <script>
     function setActionUrl(button) {
-        var form = document.getElementById('deleteForm');
-        var actionUrl = button.getAttribute('data-url');
+        let form = document.getElementById('deleteForm');
+        let actionUrl = button.getAttribute('data-url');
         form.action = actionUrl;
     }
 </script>
