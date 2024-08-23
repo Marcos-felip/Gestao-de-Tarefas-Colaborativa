@@ -1,8 +1,11 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Task, Category, Comment
-from .forms import TaskForm, CategoryForm, CommentForm
+from tasks.models import Task, Category, Comment
+from tasks.forms import TaskForm, CategoryForm, CommentForm
 from django.db.models import Q
+from django.shortcuts import render, redirect
+from django.utils.safestring import mark_safe
+import json
 
 
 class TaskListView(ListView):
@@ -17,6 +20,14 @@ class TaskDetailView(DetailView):
     model = Task
     template_name = 'tasks/tasks_detail.html'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = self.object.comments.all()  # Obtém os comentários da tarefa
+        context['form'] = CommentForm()  # Adiciona o formulário de comentário ao contexto
+        # Passa o nome da tarefa como um contexto adicional
+        context['room_name'] = self.object.title  # Supondo que o título da tarefa é o nome da sala
+        return context
+
 
 class TaskCreateView(CreateView):
     model = Task
@@ -47,10 +58,10 @@ class CategoryCreateView(CreateView):
     form_class = CategoryForm
     template_name = 'tasks/new_categories.html'
     success_url = reverse_lazy('tasks_create')  # Redireciona para a página de criação de tarefas ou outra página
-    
 
-class CommentCreateView(CreateView):
-    model = Comment
-    form_class = CommentForm
-    template_name = 'tasks/tasks_detail.html'
-    
+
+
+def room(request, room_name):
+    return render(request, "tasks/tasks_detail.html", {
+        "room_name_json": mark_safe(json.dumps(room_name)) 
+    })

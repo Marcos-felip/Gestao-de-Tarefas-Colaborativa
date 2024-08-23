@@ -32,7 +32,7 @@ class Task(models.Model):
 
     class Meta:
         verbose_name = 'Tarefa'
-
+        
 
 class Comment(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments', verbose_name='Tarefa')
@@ -41,10 +41,8 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Criado em')
 
     def __str__(self):
-        return f"Comentário de {self.user} em {self.task}"
+        return f"Comentário {self.content} de {self.user} em {self.task}"
 
     class Meta:
         verbose_name = 'Comentário'
-        verbose_name_plural = 'Comentários'
         ordering = ['created_at']
-        

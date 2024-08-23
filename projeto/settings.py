@@ -33,6 +33,7 @@ AUTH_USER_MODEL = 'users.UserProfile'
 # Application definition
 
 INSTALLED_APPS = [
+    "daphne",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -46,11 +47,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'users',
-    'tasks',
     'crispy_forms',
     "crispy_bootstrap4",
-    'channels',
-    'notifications',
+    'tasks',
+    'channels'
 ]
 
 MIDDLEWARE = [
@@ -184,4 +184,15 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECT_URL = '/accounts/login/'
 
-ASGI_APPLICATION = 'projeto.asgi.application'
+ASGI_APPLICATION = "projeto.asgi.application"
+WSGI_APPLICATION = 'projeto.wsgi.application'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
