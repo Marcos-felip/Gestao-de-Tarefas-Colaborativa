@@ -22,10 +22,9 @@ class TaskDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = self.object.comments.all()  # Obtém os comentários da tarefa
-        context['form'] = CommentForm()  # Adiciona o formulário de comentário ao contexto
-        # Passa o nome da tarefa como um contexto adicional
-        context['room_name'] = self.object.title  # Supondo que o título da tarefa é o nome da sala
+        context['comments'] = self.object.comments.all()
+        context['form'] = CommentForm()
+        context['room_name'] = self.object.id  # Passa o ID da tarefa como room_name
         return context
 
 

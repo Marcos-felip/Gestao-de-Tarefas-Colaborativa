@@ -1,11 +1,11 @@
-{% extends "dashboard/base.html" %} 
-{% load static allauth i18n %} 
-{% load crispy_forms_tags %} 
+{% extends "dashboard/base.html" %}
+{% load static allauth i18n %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 <div class="card">
   <div class="card-header d-flex justify-content-between align-items-center">
-    <h1>Detalhes de Tarefas</h1>
+    <h1>Detalhes das Tarefas</h1>  <!-- Adicione o ID da Tarefa -->
     <a href="{% url 'tasks_list' %}" class="btn btn-secondary">Voltar</a>
   </div>
   <div class="card-body">
@@ -13,7 +13,7 @@
       <!-- Coluna de Detalhes de tarefas-->
       <div class="col-md-6">
         <p><strong>Status:</strong> {{ object.get_status_display }}</p>
-        <p><strong>Titulo:</strong> {{ object.title }}</p>
+        <p id="task-room-name" data-room-name="{{ object.id }}"><strong>Titulo:</strong> {{ object.title }}</p>
         <p><strong>Descrição:</strong> {{ object.description }}</p>
         <p><strong>Criado em:</strong> {{ object.created_at }}</p>
         <p><strong>Atualizado em:</strong> {{ object.updated_at }}</p>
@@ -26,30 +26,20 @@
           <h4>Comentários</h4>
         </div>
         <div class="card-body">
-          <form method="post" class="my-class">
-            {% csrf_token %}
-            <div class="mb-2">
-              <label for="chatLog"
-                >Campo onde ira aparecer os comentarios
-              </label>
-              <textarea class="form-control" rows="10" id="output" readonly>
-              </textarea>
-            </div>
-            {{ form|crispy }}
-            <div class="input-group-append">
-              <br>
-              <button
-                class="btn btn-success"
-                id="chatMessageSend"
-                type="button">
-              {% trans "send" %}
-            </button>
-            </div>
-          </form>
+            <textarea id="output" class="form-control" rows="10" readonly></textarea>
+            <form id="commentForm">
+                {% csrf_token %}
+                <div class="mb-2">
+                    <textarea id="id_content" class="form-control" rows="2" placeholder="Digite seu comentário..."></textarea>
+                </div>
+                <button id="chatMessageSend" type="button" class="btn btn-success">Enviar</button>
+            </form>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<script src="{% static 'js/comment.js' %}"></script>
 
 {% endblock %}

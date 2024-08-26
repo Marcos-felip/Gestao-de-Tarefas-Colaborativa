@@ -1,46 +1,49 @@
-// const input = document.querySelector('#id_content')
-// const output = document.querySelector('#output')
+document.addEventListener('DOMContentLoaded', function () {
+    const roomNameElement = document.getElementById('task-room-name');
+    if (roomNameElement) {
+        const roomName = roomNameElement.dataset.roomName;
 
-// input.addEventListener('keypress', e => {
-//     console.log(e)
-//     if(e.code === 'Enter'){
-
-//     }
-// })
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Supondo que você está passando `room_name_json` através de um objeto global ou similar
-    var roomName = window.roomName;
-
-    var chatSocket = new WebSocket(
-        'ws://' + window.location.host +
-        '/ws/chat/' + roomName + '/');
-
-    chatSocket.onmessage = function(e) {
-        var data = JSON.parse(e.data);
-        var message = data['message'];
-        document.querySelector('#form-control').value += (message + '\n');
-    };
-
-    chatSocket.onclose = function(e) {
-        console.error('Chat fechado inesperadamente');
-    };
-
-    document.querySelector('#id_content').focus();
-    document.querySelector('#id_content').onkeyup = function(e) {
-        if (e.keyCode === 13) {  // enter, return
-            document.querySelector('#chatMessageSend').click();
+        if (!roomName) {
+            console.error("Room name is not defined");
+            return;
         }
-    };
 
-    document.querySelector('#chatMessageSend').onclick = function(e) {
-        var messageInputDom = document.querySelector('#id_content');
-        var message = messageInputDom.value;
-        chatSocket.send(JSON.stringify({
-            'message': message
-        }));
+        let chatSocket;
+        if (!window.chatSocket) {
+            chatSocket = new WebSocket(
+                'ws://' + window.location.host + '/ws/tasks/' + roomName + '/'
+            );
+            window.chatSocket = chatSocket;
+        } else {
+            chatSocket = window.chatSocket;
+        }
 
-        messageInputDom.value = '';
-    };
+        chatSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            console.log("Message received from WebSocket:", data);
+
+            const message = data['message'];
+            const username = data['username'];
+            const output = document.getElementById('output');
+
+            if (output) {
+                output.value += `${username}: ${message}\n`;  // Exibe o nome do usuário e a mensagem
+            }
+        };
+
+        chatSocket.onclose = function (e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chatMessageSend').onclick = function(e) {
+            const messageInput = document.querySelector('#id_content');
+            const message = messageInput.value;
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInput.value = '';  // Limpa o input após enviar
+        };
+    } else {
+        console.error('Element with ID "task-room-name" not found.');
+    }
 });
-

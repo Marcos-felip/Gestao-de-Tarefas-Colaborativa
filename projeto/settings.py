@@ -86,8 +86,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'projeto.wsgi.application'
-
 ACCOUNT_FORMS = {
     'signup': 'users.forms.OrganizationForm',
 }
@@ -186,7 +184,6 @@ ACCOUNT_AUTHENTICATED_LOGIN_REDIRECT_URL = '/accounts/login/'
 
 ASGI_APPLICATION = "projeto.asgi.application"
 WSGI_APPLICATION = 'projeto.wsgi.application'
-
 
 CHANNEL_LAYERS = {
     'default': {
