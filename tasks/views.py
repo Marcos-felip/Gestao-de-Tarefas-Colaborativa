@@ -3,9 +3,6 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from tasks.models import Task, Category, Comment
 from tasks.forms import TaskForm, CategoryForm, CommentForm
 from django.db.models import Q
-from django.shortcuts import render, redirect
-from django.utils.safestring import mark_safe
-import json
 
 
 class TaskListView(ListView):
@@ -22,7 +19,7 @@ class TaskDetailView(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = self.object.comments.all()
+        context['comments'] = Comment.objects.filter(task=self.object).order_by('created_at')
         context['form'] = CommentForm()
         context['room_name'] = self.object.id  # Passa o ID da tarefa como room_name
         return context
@@ -57,10 +54,3 @@ class CategoryCreateView(CreateView):
     form_class = CategoryForm
     template_name = 'tasks/new_categories.html'
     success_url = reverse_lazy('tasks_create')  # Redireciona para a página de criação de tarefas ou outra página
-
-
-
-def room(request, room_name):
-    return render(request, "tasks/tasks_detail.html", {
-        "room_name_json": mark_safe(json.dumps(room_name)) 
-    })

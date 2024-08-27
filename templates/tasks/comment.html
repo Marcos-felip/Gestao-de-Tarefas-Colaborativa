@@ -1,0 +1,19 @@
+<div class="card-header">
+    <h4>Comentários</h4>
+  </div>
+  <div class="card-body">
+    <div id="comment-list" class="form-control" style="height: 300px; overflow-y: scroll;">
+      {% for comment in comments %}
+        <div>{{ comment.user }}: {{ comment.content }} <small>({{ comment.created_at }})</small></div>
+      {% empty %}
+        <p>Nenhum comentário ainda.</p>
+      {% endfor %}
+    </div>
+    <form id="commentForm">
+      {% csrf_token %}
+      <div class="mb-2">
+        <textarea id="id_content" class="form-control" rows="2" placeholder="Digite seu comentário..."></textarea>
+      </div>
+      <button id="chatMessageSend" type="button" class="btn btn-success">Enviar</button>
+    </form>
+  </div>
