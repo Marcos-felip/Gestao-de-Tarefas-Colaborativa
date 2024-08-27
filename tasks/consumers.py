@@ -4,6 +4,7 @@ from tasks.models import Comment, Task
 from channels.db import database_sync_to_async
 from users.models import UserProfile
 
+
 class CommentConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         # Obtém o nome da sala a partir da URL

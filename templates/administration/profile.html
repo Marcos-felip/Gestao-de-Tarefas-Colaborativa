@@ -1,0 +1,36 @@
+{% extends "dashboard/base.html" %}
+{% block title %}
+  Perfil {{ block.super }}
+{% endblock title %}
+
+{% block content %}
+    <div class="row">
+        <!-- Primeiro card -->
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center">Meu Perfil</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Aqui você pode adicionar o conteúdo do primeiro cartão -->
+                    <h5 class="card-title">Detalhes do Perfil</h5>
+                    <p><strong>Nome:</strong> {{ object.user.get_full_name }}</p>
+                    <p><strong>Email:</strong> {{ object.user.email }}</p>
+                    <!-- Adicione outros detalhes conforme necessário -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Segundo card -->
+        <div class="col-md-8 mb-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center">Alterar Senha</h4>
+                </div>
+                <div class="card-body">
+                    {% include "account/password_change.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

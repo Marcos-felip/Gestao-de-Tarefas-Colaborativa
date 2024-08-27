@@ -3,14 +3,16 @@ from django.views.generic import (
     ListView,
     FormView,
     CreateView,
-    DeleteView, 
+    DeleteView,
+    DetailView 
 )
 from .forms import OrganizationForm, UserMemberForm
 from django.urls import reverse_lazy
-from .models import Membership, Organization
+from .models import Membership, Organization, UserProfile
 from django.shortcuts import get_object_or_404, redirect
 from .mixins import AdminOrOwnerMixin
 from django.views.generic import View
+
 
 class UserRegistrationView(FormView):
     template_name = "account/signup.html"  
@@ -27,8 +29,17 @@ class UserRegistrationView(FormView):
 
 class Home(TemplateView):
     template_name = "dashboard/home.html"
-
-
+    
+    
+class Profile(DetailView):
+    model = UserProfile
+    template_name = "administration/profile.html"
+    
+    def get_object(self, queryset=None):
+        # Retorna o perfil do usuário autenticado
+        return get_object_or_404(UserProfile, pk=self.kwargs['pk'])
+    
+    
 class LogoutDashboard(TemplateView):
     template_name = "account/logout.html"
 
@@ -38,7 +49,6 @@ class ListUserView(ListView):
     model = Membership
     paginate_by = 20
     
-
     def get_queryset(self):
         # Obtém a organização do usuário atual
         queryset = super().get_queryset()
@@ -62,6 +72,10 @@ class ListUserView(ListView):
             "user__username"
         )  # Retorna uma QuerySet vazia se não houver organização associada
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user  # Adiciona o usuário logado ao contexto
+        return context
 
 class CreateUserView(AdminOrOwnerMixin, CreateView):
     model = Membership
