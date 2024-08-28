@@ -1,8 +1,10 @@
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from tasks.models import Task, Category, Comment
+from users.models import Membership
 from tasks.forms import TaskForm, CategoryForm, CommentForm
 from django.db.models import Q
+from notifications.models import Notification 
 
 
 class TaskListView(ListView):

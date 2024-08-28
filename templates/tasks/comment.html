@@ -1,35 +1,54 @@
 <div class="card-header">
-  <h4>Comentários</h4>
+  <h5>Comentários</h5>
 </div>
 <div class="card-body">
   <div
-    id="comment-list"
-    class="form-control"
-    style="height: 300px; overflow-y: scroll">
-    {% for comment in comments %}
-    <div><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" viewBox="0 0 16 16">
-      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-      <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-  </svg>
-      {{ comment.user }}: {{ comment.content }}
-      <small>({{ comment.created_at }})</small>
+  id="comment-list"
+  class="form-control"
+  style="height: 400px; overflow-y: scroll;">
+  {% for comment in comments %}
+  <div class="comment mb-3">
+    <div class="d-flex align-items-start mb-2">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="30"
+        height="30"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+        class="me-2">
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+        <path
+          fill-rule="evenodd"
+          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+      </svg>
+      <div class="w-100">
+        <div class="d-flex justify-content-between">
+          <strong>{{ comment.user }}</strong>
+          <small class="text-muted">{{ comment.created_at }}</small>
+        </div>
+        <div class="mt-2 ms-3 text-muted">
+          {{ comment.content }}
+        </div>
+      </div>
     </div>
-    <br>
-    {% empty %}
-    <p>Nenhum comentário ainda.</p>
-    {% endfor %}
+    <hr/>
   </div>
+  {% empty %}
+  <p>Nenhum comentário ainda.</p>
+  {% endfor %}
+</div>
   <form id="commentForm">
     {% csrf_token %}
     <div class="mb-2">
+      <br>
       <textarea
         id="id_content"
-        class="form-control"
-        rows="1"
+        class="form-control border-1 resize-none"
+        rows="2"
         placeholder="Digite seu comentário...">
       </textarea>
     </div>
-    <button id="chatMessageSend" type="button" class="btn btn-success">
+    <button id="chatMessageSend" type="button" class="btn btn-primary ">
       Enviar
     </button>
   </form>

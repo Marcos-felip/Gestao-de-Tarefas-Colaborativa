@@ -30,6 +30,7 @@
                 {% endif %} 
             {% endcomment %}
             
+            {% comment %} 
             <div>
                 <strong>{% trans "Menu:" %}</strong>
                 <ul>
@@ -85,7 +86,8 @@
                         {% endif %}
                     {% endif %}
                 </ul>
-            </div>
+            </div> 
+            {% endcomment %}
 
             {% block content %}
             {% endblock content %}

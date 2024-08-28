@@ -47,3 +47,20 @@ document.addEventListener('DOMContentLoaded', function () {
         console.error('Element with ID "task-room-name" not found.');
     }
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const textarea = document.getElementById('id_content');
+
+    function adjustHeight() {
+        // Redefine a altura para 'auto' para recalcular o tamanho
+        textarea.style.height = 'auto';
+        // Ajusta a altura com base no conteúdo
+        textarea.style.height = `${textarea.scrollHeight}px`;
+    }
+
+    // Ajusta a altura ao iniciar
+    adjustHeight();
+
+    // Ajusta a altura sempre que o texto mudar
+    textarea.addEventListener('input', adjustHeight);
+});

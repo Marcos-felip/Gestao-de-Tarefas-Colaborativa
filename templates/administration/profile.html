@@ -12,15 +12,11 @@
                     <h4 class="text-center">Meu Perfil</h4>
                 </div>
                 <div class="card-body">
-                    <!-- Aqui você pode adicionar o conteúdo do primeiro cartão -->
-                    <h5 class="card-title">Detalhes do Perfil</h5>
-                    <p><strong>Nome:</strong> {{ object.user.get_full_name }}</p>
-                    <p><strong>Email:</strong> {{ object.user.email }}</p>
-                    <!-- Adicione outros detalhes conforme necessário -->
+                    <p><strong>Nome:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
                 </div>
             </div>
         </div>
-
         <!-- Segundo card -->
         <div class="col-md-8 mb-3">
             <div class="card">
