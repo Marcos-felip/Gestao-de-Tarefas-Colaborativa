@@ -5,7 +5,6 @@
 
 {% block content %}
 
-<div class="container mt-4">
   <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
           <h1>Lista de Usuários</h1>
@@ -19,6 +18,7 @@
               <thead>
                   <tr>
                       <th>Nome</th>
+                      <th>Email</th>
                       <th>Equipe</th>
                       <th>Permissão</th>
                       <th>Status</th>
@@ -29,6 +29,7 @@
                   {% for user in object_list %}
                   <tr>
                       <td>{{ user.user }}</td>
+                      <td>{{ user.user.email }}</td>
                       <td>{{ user.organization }}</td>
                       <td>{{ user.get_type_permission_display }}</td>
                       <td>
@@ -51,6 +52,7 @@
                             <i class="fas fa-trash"></i>  
                             Excluir
                           </button>
+                          
                       </td>
                   </tr>
                   {% empty %}
@@ -62,7 +64,6 @@
           </table>
       </div>
   </div>
-</div>
 
 <!-- Include do modal (confirm_delete.html)-->
 {% include "administration/confirm_delete.html" %}

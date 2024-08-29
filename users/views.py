@@ -8,7 +8,7 @@ from django.views.generic import (
 )
 from .forms import OrganizationForm, UserMemberForm
 from django.urls import reverse_lazy
-from .models import Membership, Organization
+from .models import Membership, Organization, UserProfile
 from django.shortcuts import get_object_or_404, redirect
 from .mixins import AdminOrOwnerMixin
 from allauth.account.views import PasswordChangeView
@@ -47,8 +47,6 @@ class ListUserView(ListView):
     def get_queryset(self):
         # Obtém a organização do usuário atual
         queryset = super().get_queryset()
-        print(queryset)
-        print(queryset.none())
         user_memberships = Membership.objects.filter(user=self.request.user)
 
         # Todas as organizações do usuário

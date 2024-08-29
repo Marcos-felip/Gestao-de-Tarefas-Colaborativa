@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from tasks.models import Task, Category, Comment
 from users.models import Membership
-from tasks.forms import TaskForm, CategoryForm, CommentForm
+from tasks.forms import TaskForm, CategoryForm, CommentForm, TaskFilterForm
 from django.db.models import Q
 from notifications.models import Notification 
 
@@ -10,10 +10,20 @@ from notifications.models import Notification
 class TaskListView(ListView):
     model = Task
     template_name = 'tasks/tasks_list.html'
+    paginate_by = 5
 
     def get_queryset(self):
-        return Task.objects.filter(Q(created_by=self.request.user) | Q(assigned_to = self.request.user))
-
+        queryset = Task.objects.filter(Q(created_by=self.request.user) | Q(assigned_to=self.request.user))
+        status = self.request.GET.get('status')
+        if status:
+            queryset = queryset.filter(status=status)
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = TaskFilterForm(self.request.GET)
+        return context
+    
 
 class TaskDetailView(DetailView):
     model = Task

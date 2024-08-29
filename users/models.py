@@ -20,8 +20,7 @@ class Membership(models.Model):
     class Permission(models.TextChoices):
         OWNER = "owner", "Proprietario"
         ADMIN = "admin", "Administrador"
-        USER = "user", "Colaborador"
-
+        USER = "user", "Colaborador"   
     user = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
     organization = models.ForeignKey(Organization, on_delete=models.SET_NULL, null=True)
     type_permission = models.CharField(

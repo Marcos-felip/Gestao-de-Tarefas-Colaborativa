@@ -25,3 +25,10 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['content']
         
+        
+class TaskFilterForm(forms.Form):
+    status = forms.ChoiceField(
+        choices=[('', 'Todos')] + list(Task.Status.choices),
+        required=False,
+        label='Status'
+    )
