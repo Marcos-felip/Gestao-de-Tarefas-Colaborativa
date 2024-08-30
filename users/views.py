@@ -8,7 +8,7 @@ from django.views.generic import (
 )
 from .forms import OrganizationForm, UserMemberForm
 from django.urls import reverse_lazy
-from .models import Membership, Organization, UserProfile
+from .models import Membership, Organization
 from django.shortcuts import get_object_or_404, redirect
 from .mixins import AdminOrOwnerMixin
 from allauth.account.views import PasswordChangeView

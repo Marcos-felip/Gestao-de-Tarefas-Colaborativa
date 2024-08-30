@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'users',
     'crispy_forms',
     "crispy_bootstrap4",
-    'tasks',
+    'tasks.apps.TasksConfig',
     'channels',
     'notifications',
 ]
